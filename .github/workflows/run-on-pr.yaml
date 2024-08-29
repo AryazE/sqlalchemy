@@ -52,6 +52,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install --upgrade tox setuptools
           pip list
+        
+      - name: Instrument code
+        uses: AryazE/auto-dylin/instrument@main
+        with:
+            analysis-coverage: false
 
       - name: Run tests
         run: tox -e github-${{ matrix.build-type }} -- -q --nomemory --notimingintensive ${{ matrix.pytest-args }}
+    
+      - name: Report results
+        if: always()
+        uses: AryazE/auto-dylin/report@main
